@@ -1,3 +1,5 @@
+#include "../../util.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -6,28 +8,6 @@ typedef struct {
     char *name;
     char* value;
 } number;
-
-void replace(char *target, const char *needle, const char *replacement)
-{
-    char buffer[1024] = { 0 };
-    char *insert_point = &buffer[0];
-    const char *tmp = target;
-    size_t needle_len = strlen(needle);
-    size_t repl_len = strlen(replacement);
-    while (1) {
-        const char *p = strstr(tmp, needle);
-        if (p == NULL) { // walked past last occurrence of needle; copy remaining part
-            strcpy(insert_point, tmp);
-            break;
-        }
-        memcpy(insert_point, tmp, p - tmp); // copy part before needle
-        insert_point += p - tmp;
-        memcpy(insert_point, replacement, repl_len); // copy replacement string
-        insert_point += repl_len;
-        tmp = p + needle_len;
-    }
-    strcpy(target, buffer);
-}
 
 int main() {
     FILE *inputfile = fopen("./input", "r");
